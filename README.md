@@ -1,5 +1,5 @@
 # Janos
-Janos is a K8s migration tool that update your manifests in order to be compatible with newer versions
+Janos is a K8s migration tool that update your manifests in order to be compatible with newer versions. __It does not work with Helm templates, just with pure yaml files.__
 
 [![License](https://img.shields.io/badge/license--lightgrey.svg)](https://github.com/sumup-oss/janos/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
@@ -23,6 +23,8 @@ Janos is a K8s migration tool that update your manifests in order to be compatib
 - [List of Changes](#list-of-changes)
 - [About SumUp](#about-sumup)
 
+## Overview
+Janos will convert all your manifest files, updating it inplace. If you pass a directory as a parameter, it will do a recursive search. All comments are removed, and the file formatting may change.
 
 ## Installation
 
@@ -39,8 +41,8 @@ make install
 
 ```sh
 janos {-d|-f}
--f file       The file to be converted
--d dir        The directory with the yaml files to be converted
+-f file       The file to be converted.
+-d dir        The directory with the yaml files to be converted.
 ```
 All the rules are in the file migration.js.
 
