@@ -1,7 +1,7 @@
 # Janos
 Janos is a K8s migration tool that update your manifests in order to be compatible with newer versions. __It does not work with Helm templates, just with pure yaml files.__
 
-[![License](https://img.shields.io/badge/license--lightgrey.svg)](https://github.com/sumup-oss/janos/LICENSE)
+[![License](https://img.shields.io/badge/license--lightgrey.svg)](https://github.com/sumup-oss/janos/LICENSE.md)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 <div align="center">
