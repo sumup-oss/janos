@@ -1,3 +1,18 @@
+/**
+ * Copyright 2021, SumUp Ltd.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 function parseDocs(docs) {
   const result = [];
   docs.forEach((resource) => {
@@ -9,65 +24,65 @@ function parseDocs(docs) {
 }
 
 function replaceDeprecatedAPIs(resource) {
-  let result = Object.assign({}, resource);
+  const result = { ...resource };
   let legacyAPIs;
-  switch (result["kind"]) {
-    case "Deployment":
-    case "Daemonset":
-    case "Statefulset":
-    case "ReplicaSet":
-      legacyAPIs = ["extensions/v1beta1", "apps/v1beta1", "apps/v1beta2"];
-      if (legacyAPIs.includes(result["apiVersion"])) {
+  switch (result.kind) {
+    case 'Deployment':
+    case 'Daemonset':
+    case 'Statefulset':
+    case 'ReplicaSet':
+      legacyAPIs = ['extensions/v1beta1', 'apps/v1beta1', 'apps/v1beta2'];
+      if (legacyAPIs.includes(result.apiVersion)) {
         console.log(
-          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`
+          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`,
         );
-        result.apiVersion = "apps/v1";
+        result.apiVersion = 'apps/v1';
       }
       break;
 
-    case "PodSecurityPolicy":
-      legacyAPIs = ["extensions/v1beta1", "apps/v1beta2"];
-      if (legacyAPIs.includes(result["apiVersion"])) {
+    case 'PodSecurityPolicy':
+      legacyAPIs = ['extensions/v1beta1', 'apps/v1beta2'];
+      if (legacyAPIs.includes(result.apiVersion)) {
         console.log(
-          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`
+          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`,
         );
-        result.apiVersion = "policy/v1beta1";
+        result.apiVersion = 'policy/v1beta1';
       }
       break;
 
-    case "HorizontalPodAutoscaler":
-      legacyAPIs = ["autoscaling/v2beta1"];
-      if (legacyAPIs.includes(result["apiVersion"])) {
+    case 'HorizontalPodAutoscaler':
+      legacyAPIs = ['autoscaling/v2beta1'];
+      if (legacyAPIs.includes(result.apiVersion)) {
         console.log(
-          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`
+          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`,
         );
-        result.apiVersion = "autoscaling/v2beta2";
+        result.apiVersion = 'autoscaling/v2beta2';
       }
       break;
 
-    case "Ingress":
-      legacyAPIs = ["extensions/v1beta1"];
-      if (legacyAPIs.includes(result["apiVersion"])) {
+    case 'Ingress':
+      legacyAPIs = ['extensions/v1beta1'];
+      if (legacyAPIs.includes(result.apiVersion)) {
         console.log(
-          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`
+          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`,
         );
-        result.apiVersion = "networking.k8s.io/v1beta1";
+        result.apiVersion = 'networking.k8s.io/v1beta1';
       }
       break;
 
-    case "Role":
-    case "RoleBinding":
-    case "ClusterRole":
-    case "ClusterRoleBinding":
+    case 'Role':
+    case 'RoleBinding':
+    case 'ClusterRole':
+    case 'ClusterRoleBinding':
       legacyAPIs = [
-        "rbac.authorization.k8s.io/v1alpha1",
-        "rbac.authorization.k8s.io/v1beta1",
+        'rbac.authorization.k8s.io/v1alpha1',
+        'rbac.authorization.k8s.io/v1beta1',
       ];
-      if (legacyAPIs.includes(result["apiVersion"])) {
+      if (legacyAPIs.includes(result.apiVersion)) {
         console.log(
-          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`
+          `Replace apiVersion for "${resource.kind}" - "${resource.metadata.name}"`,
         );
-        result.apiVersion = "rbac.authorization.k8s.io/v1";
+        result.apiVersion = 'rbac.authorization.k8s.io/v1';
       }
       break;
   }
@@ -75,13 +90,13 @@ function replaceDeprecatedAPIs(resource) {
 }
 
 function addSpecSelector(resource) {
-  let result = Object.assign({}, resource);
-  const kinds = ["Deployment", "Daemonset", "Statefulset", "ReplicaSet"];
-  if (kinds.includes(result["kind"]) && !result.spec.selector) {
+  const result = { ...resource };
+  const kinds = ['Deployment', 'Daemonset', 'Statefulset', 'ReplicaSet'];
+  if (kinds.includes(result.kind) && !result.spec.selector) {
     console.log(
-      `Adding spec.selector to "${result.kind}" - "${result.metadata.name}"`
+      `Adding spec.selector to "${result.kind}" - "${result.metadata.name}"`,
     );
-    const labels = Object.assign({}, result.spec.template.metadata.labels);
+    const labels = { ...result.spec.template.metadata.labels };
     const selector = { matchLabels: labels };
     result.spec.selector = selector;
   }
